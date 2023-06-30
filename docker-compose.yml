@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  apollo-server:
+    container_name: apollo-server
+    build:
+      context: ./server
+    ports:
+      - "3001:3001"
+    env_file:
+      - ./server/.env
+    networks:
+      - apollo-graphql-webnet
+
+  keanu-frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    container_name: keanu-frontend
+    env_file:
+      - ./frontend/.env
+    networks:
+      - apollo-graphql-webnet
+    depends_on:
+      - apollo-server
+
+networks:
+  apollo-graphql-webnet:
